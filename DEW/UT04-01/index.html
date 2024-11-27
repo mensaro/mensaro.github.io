@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <form action="https://direccion-indicada-en-clase" method="POST" id="registroForm">
+  <form action="" method="POST" id="registroForm">
     <fieldset>
       <legend>Datos Usuario</legend>
       <label for="username">Nombre de Usuario:</label>
@@ -35,4 +35,47 @@
       <input type="text" id="codigoPostal" name="codigoPostal" placeholder="38XXX" required pattern="\d{5}">
 
       <label for="dni">DNI/NIE:</label>
-      <input type="text" id="dni" name="dni" placeholder="DNI / NIE" required pattern="[A-Z]
+      <input type="text" id="dni" name="dni" placeholder="DNI / NIE" required pattern="[A-Z]?\d{7,8}[A-Z]?">
+
+      <label>Crear cuenta como:</label>
+      <input type="radio" id="particular" name="tipoCuenta" value="particular" required>
+      <label for="particular">Particular</label>
+      <input type="radio" id="empresa" name="tipoCuenta" value="empresa">
+      <label for="empresa">Empresa</label>
+
+      <label for="nacimiento">Año de Nacimiento:</label>
+      <select id="nacimiento" name="nacimiento" required>
+        <option value="2010" selected>2010</option>
+        <option value="2009">2009</option>
+        <option value="2008">2008</option>
+        <!-- Añadir más años si es necesario -->
+      </select>
+
+      <label>Elige tus aficiones:</label>
+      <input type="checkbox" id="musica" name="aficiones" value="musica" required>
+      <label for="musica">Música</label>
+      <input type="checkbox" id="deporte" name="aficiones" value="deporte">
+      <label for="deporte">Deporte</label>
+      <input type="checkbox" id="videojuegos" name="aficiones" value="videojuegos">
+      <label for="videojuegos">Video Juegos</label>
+      <input type="checkbox" id="manualidades" name="aficiones" value="manualidades">
+      <label for="manualidades">Manualidades</label>
+      <input type="checkbox" id="artes" name="aficiones" value="artes">
+      <label for="artes">Artes</label>
+      <input type="checkbox" id="lectura" name="aficiones" value="lectura">
+      <label for="lectura">Lectura</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Datos Publicación</legend>
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" name="titulo" placeholder="Título" maxlength="15" required>
+
+      <label for="descripcion">Descripción:</label>
+      <textarea id="descripcion" name="descripcion" placeholder="Descripción" maxlength="120" required></textarea>
+    </fieldset>
+
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+</html>
