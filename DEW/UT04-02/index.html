@@ -14,7 +14,7 @@
                 <fieldset>
                     <legend>Datos Usuario</legend>
                     <label for="username">Nombre de Usuario:</label>
-                    <input type="text" id="username" name="NombreUsuario" placeholder="Tu nombre de usuario" minlength="4" maxlength="20" required>
+                    <input type="text" id="username" name="NombreUsuario" placeholder="Tu nombre de usuario (4-20 caracteres)" minlength="4" maxlength="20" required>
                     <span class="error-message"></span>
 
                     <label for="password">Contraseña:</label>
@@ -22,21 +22,21 @@
                     <span class="error-message"></span>
 
                     <label for="show-password">Mostrar Contraseña</label>
-                    <input type="checkbox" id="show-password" >
+                    <input type="checkbox" id="show-password">
                 </fieldset>
 
                 <fieldset>
                     <legend>Datos Personales</legend>
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="Nombre" placeholder="Tu nombre" minlength="4" maxlength="20" required>
+                    <input type="text" id="nombre" name="Nombre" placeholder="Tu nombre (4-20 caracteres)" minlength="4" maxlength="20" required>
                     <span class="error-message"></span>
 
                     <label for="apellidos">Apellidos:</label>
-                    <input type="text" id="apellidos" name="Apellidos" placeholder="Tus apellidos" minlength="4" maxlength="20" required>
+                    <input type="text" id="apellidos" name="Apellidos" placeholder="Tus apellidos (4-20 caracteres)" minlength="4" maxlength="20" required>
                     <span class="error-message"></span>
 
                     <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="Telefono" placeholder="(+34)922123123" pattern="^\(\+34\)\d{9}$" required>
+                    <input type="tel" id="telefono" name="Telefono" placeholder="Ej. (+34)922123123" pattern="^\(\+34\)\d{9}$" required>
                     <span class="error-message"></span>
 
                     <label for="codigo_postal">Código Postal:</label>
@@ -44,14 +44,14 @@
                     <span class="error-message"></span>
 
                     <label for="tipo_documento">Tipo de Documento:</label>
-                    <select id="tipo_documento" name="TipoDocumento"required>
+                    <select id="tipo_documento" name="TipoDocumento" required>
                         <option value="">Seleccione</option>
                         <option value="DNI">DNI</option>
                         <option value="NIE">NIE</option>
                     </select>
 
                     <label for="dni">DNI/NIE:</label>
-                    <input type="text" id="dni" name="DniNie" placeholder="DNI/NIE válido" required>
+                    <input type="text" id="dni" name="DniNie" placeholder="Formato válido según tipo" required>
                     <span class="error-message"></span>
 
                     <label>Crear cuenta como:</label>
@@ -65,17 +65,16 @@
                     <label for="anio_nacimiento">Año de Nacimiento:</label>
                     <select id="anio_nacimiento" name="AnioNacimiento" required>
                         <option value="">Seleccione</option>
-                        
                     </select>
 
                     <fieldset class="checkbox-block">
                         <legend>Elige tus aficiones:</legend>
-                        <label><input type="checkbox" id="musica" value="MU" > Música</label>
-                        <label><input type="checkbox" id="deporte" value="DE" > Deporte</label>
-                        <label><input type="checkbox" id="videojuegos" value="VI" > Videojuegos</label>
-                        <label><input type="checkbox" id="manualidades" value="MA" > Manualidades</label>
-                        <label><input type="checkbox" id="artes" value="AR" > Artes</label>
-                        <label><input type="checkbox" id="lectura" value="LE" > Lectura</label>
+                        <label><input type="checkbox" id="musica" value="MU"> Música</label>
+                        <label><input type="checkbox" id="deporte" value="DE"> Deporte</label>
+                        <label><input type="checkbox" id="videojuegos" value="VI"> Videojuegos</label>
+                        <label><input type="checkbox" id="manualidades" value="MA"> Manualidades</label>
+                        <label><input type="checkbox" id="artes" value="AR"> Artes</label>
+                        <label><input type="checkbox" id="lectura" value="LE"> Lectura</label>
                         <input type="hidden" id="aficiones" name="Aficiones" required>
                         <span class="error-message"></span>
                     </fieldset>
@@ -84,17 +83,17 @@
                 <fieldset>
                     <legend>Datos Publicación</legend>
                     <label for="titulo">Título:</label>
-                    <input type="text" id="titulo" name="PublicacionTitulo" placeholder="Título de la publicación" minlength="4" maxlength="15"  required>
+                    <input type="text" id="titulo" name="PublicacionTitulo" placeholder="Máximo 15 caracteres" minlength="4" maxlength="15" required>
                     <span id="titulo-counter">0 / 15</span>
                     <span class="error-message"></span>
 
                     <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="PublicacionDescripcion" placeholder="Descripción de la publicación" minlength="4" maxlength="120"  required></textarea>
+                    <textarea id="descripcion" name="PublicacionDescripcion" placeholder="Máximo 120 caracteres" minlength="4" maxlength="120" required></textarea>
                     <span id="descripcion-counter">0 / 120</span>
                     <span class="error-message"></span>
                 </fieldset>
 
-                <button type="submit" >Enviar</button>
+                <button type="submit">Enviar</button>
             </form>
         </div>
 
