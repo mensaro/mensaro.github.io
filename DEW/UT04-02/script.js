@@ -1,187 +1,105 @@
-// ***** Selección de elementos del DOM *****
-/*const DOM = {
-    form: document.getElementById('registro-form'),
-    inputs: document.querySelectorAll('input, select, textarea'),
-    validationMessages: document.getElementById('validation-messages'),
-    password: document.getElementById('password'),
-    showPassword: document.getElementById('show-password'),
-    titulo: document.getElementById('titulo'),
-    descripcion: document.getElementById('descripcion'),
-    tituloCounter: document.getElementById('titulo-counter'),
-    descripcionCounter: document.getElementById('descripcion-counter'),
-    aficiones: document.getElementById('aficiones'),
-    checkboxes: document.querySelectorAll('fieldset.checkbox-block input[type="checkbox"]'),
-    tipoDocumento: document.getElementById('tipo_documento'),
-    dni: document.getElementById('dni'),
-    anioNacimiento: document.getElementById('anio_nacimiento'),
-    aficionesBlock: document.querySelector('.checkbox-block'),
-};
+document.addEventListener('DOMContentLoaded', () => {
+    const DOM = {
+        form: document.getElementById('registro-form'),
+        inputs: document.querySelectorAll('input, select, textarea'),
+        validationMessages: document.getElementById('validation-messages'),
+        password: document.getElementById('password'),
+        showPassword: document.getElementById('show-password'),
+        titulo: document.getElementById('titulo'),
+        descripcion: document.getElementById('descripcion'),
+        tituloCounter: document.getElementById('titulo-counter'),
+        descripcionCounter: document.getElementById('descripcion-counter'),
+        aficiones: document.getElementById('aficiones'),
+        checkboxes: document.querySelectorAll('fieldset.checkbox-block input[type="checkbox"]'),
+        tipoDocumento: document.getElementById('tipo_documento'),
+        dni: document.getElementById('dni'),
+        anioNacimiento: document.getElementById('anio_nacimiento'),
+        aficionesBlock: document.querySelector('.checkbox-block'),
+    };
 
-// ***** Funciones *****
-
-// Mostrar/ocultar contraseña
-const togglePasswordVisibility = () => {
-    DOM.password.type = DOM.password.type === 'password' ? 'text' : 'password';
-};
-
-// Contador de caracteres
-const updateCounter = (field, counter, maxLength) => {
-    const currentLength = field.value.length;
-    counter.textContent = `${currentLength} / ${maxLength}`;
-    field.style.borderColor = field.validity.valid ? "black" : "red";
-};
-
-// Validar checkbox de aficiones
-const validateCheckboxes = () => {
-    const selectedCheckboxes = Array.from(DOM.checkboxes).filter(checkbox => checkbox.checked);
-
-    if (selectedCheckboxes.length < 2) {
-        DOM.aficiones.setCustomValidity("Por favor selecciona al menos dos aficiones.");
-        return false;
-    }
-
-    const selectedValues = selectedCheckboxes.map(checkbox => checkbox.value.toUpperCase().substring(0, 2));
-    DOM.aficiones.value = selectedValues.join(', ');
-    DOM.aficiones.setCustomValidity("");
-    return true;
-};
-
-// Actualizar validación del documento (DNI/NIE)
-const updateValidation = () => {
-    const tipoDocumento = DOM.tipoDocumento.value;
-
-    if (tipoDocumento === 'DNI') {
-        DOM.dni.pattern = "^[0-9]{8}[A-Za-z]$";
-        DOM.dni.title = "Debe ser un DNI válido: 8 números seguidos de una letra.";
-        DOM.dni.placeholder = "Formato: 12345678A";
-    } else if (tipoDocumento === 'NIE') {
-        DOM.dni.pattern = "^[XYZ][0-9]{7}[A-Za-z]$";
-        DOM.dni.title = "Debe ser un NIE válido: Comienza con X, Y o Z, seguido de 7 números y una letra.";
-        DOM.dni.placeholder = "Formato: X1234567L";
-    } else {
-        DOM.dni.removeAttribute("pattern");
-        DOM.dni.title = "Seleccione un tipo de documento.";
-        DOM.dni.placeholder = "DNI / NIE";
-    }
-    DOM.dni.setCustomValidity("");
-};
-
-// Mostrar mensajes de validación globales
-const showGlobalValidationMessages = () => {
-    DOM.validationMessages.innerHTML = ''; // Limpiar mensajes previos
-
-    DOM.inputs.forEach((field) => {
-        const message = field.validationMessage;
-        const name = field.name;
-
-        if (message) {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${name}: ${message}`;
-            DOM.validationMessages.appendChild(listItem);
-        }
-    });
-};
-
-// Generar opciones para el campo "Año de Nacimiento"
-const generateAnioNacimientoOptions = () => {
-    const fragment = document.createDocumentFragment();
-    for (let year = 2010; year >= 1920; year--) {
+    // Rellenar el selector de año de nacimiento
+    for (let year = 1920; year <= 2010; year++) {
         const option = document.createElement('option');
         option.value = year;
         option.textContent = year;
-        fragment.appendChild(option);
+        DOM.anioNacimiento.appendChild(option);
     }
-    DOM.anioNacimiento.appendChild(fragment);
-};
-
-// Configurar validación dinámica
-const setupValidationListeners = () => {
-    DOM.inputs.forEach((field) => {
-        field.addEventListener('input', () => {
-            const errorMessageElement = field.nextElementSibling;
-            errorMessageElement.textContent = field.validationMessage;
-
-            if (field.validity.valid) {
-                field.style.borderColor = "black";
-                errorMessageElement.textContent = "";
-            } else {
-                field.style.borderColor = "red";
-            }
-
-            showGlobalValidationMessages(); // Actualiza mensajes globales en tiempo real
-        });
-
-        if (field.type === 'checkbox') {
-            field.addEventListener('change', validateCheckboxes);
-        }
-    });
-};
-
-// Monitorear cambios en el bloque de aficiones
-const monitorAficionesBlock = () => {
-    if (DOM.aficionesBlock.style.display === 'none' || DOM.aficionesBlock.offsetParent === null) {
-        DOM.aficionesBlock.style.display = 'block';
-        DOM.aficionesBlock.style.visibility = 'visible';
-    }
-};
-
-// Observador para detectar cambios en el DOM
-const observeDOMChanges = () => {
-    const observer = new MutationObserver((mutationsList) => {
-        for (let mutation of mutationsList) {
-            if (mutation.type === 'childList' || mutation.type === 'attributes') {
-                monitorAficionesBlock();
-            }
-        }
-    });
-    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
-};
-
-// ***** Inicialización *****
-document.addEventListener('DOMContentLoaded', () => {
-    // Generar dinámicamente las opciones del campo "Año de Nacimiento"
-    generateAnioNacimientoOptions();
 
     // Mostrar/Ocultar contraseña
-    DOM.showPassword.addEventListener('click', togglePasswordVisibility);
+    DOM.showPassword.addEventListener('change', () => {
+        DOM.password.type = DOM.showPassword.checked ? 'text' : 'password';
+    });
 
-    // Contadores dinámicos
-    DOM.titulo.addEventListener('input', () => updateCounter(DOM.titulo, DOM.tituloCounter, 15));
-    DOM.descripcion.addEventListener('input', () => updateCounter(DOM.descripcion, DOM.descripcionCounter, 120));
+    // Actualizar el campo oculto de aficiones
+    const updateAficiones = () => {
+        const selected = Array.from(DOM.checkboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
 
-    // Validación del formulario al enviarlo
-    DOM.form.addEventListener('submit', (event) => {
-        const isValid = validateCheckboxes();
-        showGlobalValidationMessages();
+        DOM.aficiones.value = selected.join(', ');
+        // Validación personalizada: al menos 2 opciones seleccionadas
+        DOM.aficiones.setCustomValidity(
+            selected.length >= 2
+                ? '' // Correcto
+                : 'Selecciona al menos dos aficiones.' // Mensaje de error
+        );
+    };
 
-        if (!isValid || !DOM.form.checkValidity()) {
-            event.preventDefault();
+    // Validar DNI/NIE según el tipo de documento
+    DOM.tipoDocumento.addEventListener('change', () => {
+        const tipoDocumento = DOM.tipoDocumento.value;
+        if (tipoDocumento === 'DNI') {
+            DOM.dni.pattern = '\\d{8}[A-Za-z]';
+            DOM.dni.placeholder = '12345678A';
+        } else if (tipoDocumento === 'NIE') {
+            DOM.dni.pattern = '[XYZxyz]\\d{7}[A-Za-z]';
+            DOM.dni.placeholder = 'X1234567A';
         }
     });
 
-    // Validación del tipo de documento
-    DOM.tipoDocumento.addEventListener('change', updateValidation);
+    // Actualizar contadores de caracteres
+    DOM.titulo.addEventListener('input', () => {
+        DOM.tituloCounter.textContent = `${DOM.titulo.value.length} / 15`;
+    });
 
-    // Configuración de validadores dinámicos
-    setupValidationListeners();
+    DOM.descripcion.addEventListener('input', () => {
+        DOM.descripcionCounter.textContent = `${DOM.descripcion.value.length} / 120`;
+    });
 
-    // Observador de cambios en el DOM
-    observeDOMChanges();
-});*/
+    const updateValidationMessages = () => {
+        updateAficiones(); // Asegurarse de que las aficiones estén actualizadas
 
+        DOM.validationMessages.innerHTML = ''; // Limpiar mensajes existentes
+        DOM.inputs.forEach(element => {
+            if (element.name) {
+                element.checkValidity(); // Verificar la validez del elemento
+                const li = document.createElement('li');
+                li.textContent = element.validationMessage
+                    ? `${element.name}: ${element.validationMessage}` // Mostrar mensaje de error
+                    : `${element.name}: Correcto`; // Mostrar mensaje de éxito
+                DOM.validationMessages.appendChild(li);
+            }
+        });
+    };
 
-const DOM = {
-    anioNacimiento: document.getElementById('anio_nacimiento'),
-}
+    // Escuchar cambios en las casillas de verificación
+    DOM.checkboxes.forEach(checkbox =>
+        checkbox.addEventListener('change', () => {
+            updateValidationMessages(); // Actualizar mensajes dinámicos
+        })
+    );
 
-// Generar opciones para el campo "Año de Nacimiento"
-const generateAnioNacimientoOptions = () => {
-    const fragment = document.createDocumentFragment();
-    for (let year = 2010; year >= 1920; year--) {
-        const option = document.createElement('option');
-        option.value = year;
-        option.textContent = year;
-        fragment.appendChild(option);
-    }
-    DOM.anioNacimiento.appendChild(fragment);
-};
+    // Validar el formulario al enviar
+    DOM.form.addEventListener('submit', (event) => {
+        updateAficiones(); // Asegurarse de que las aficiones estén validadas correctamente
+
+        if (!DOM.form.checkValidity()) {
+            event.preventDefault(); // Evitar el envío si hay errores de validación
+            updateValidationMessages(); // Actualizar mensajes si hay errores
+        }
+        // Si el formulario es válido, permitirá la redirección al action definido en el HTML
+    });
+
+    // Escuchar eventos de entrada para actualizar mensajes
+    DOM.form.addEventListener('input', updateValidationMessages);
+});
